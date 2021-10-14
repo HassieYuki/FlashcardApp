@@ -1,7 +1,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -91,35 +93,23 @@ public class GUI implements ActionListener {
 
 		// write file
 		List<String> txtData = MyDictonary.createList();
+				
+		try (FileWriter f = new FileWriter(MyDictonary.filePath,true);
+				BufferedWriter b = new BufferedWriter(f);
+				PrintWriter p = new PrintWriter(b);){
+			
+			// iterate list
+			for (int i=0; i<txtData.size()-1; i++) {
+				p.print(txtData.get(i));
+				p.print(",");
+			}
+			p.println(txtData.get(txtData.size()-1));
+			
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
 		
-		FileWriter fileWriter = null;
-		try {
-		      fileWriter = new FileWriter(MyDictonary.filePath);
 
-
-		     for (int i=0; i<txtData.size()-1; i++) {
-		        fileWriter.append(txtData.get(i));
-		        fileWriter.append(",");	     	        
-		     }
-		     fileWriter.append(txtData.get(txtData.size()-1)); // last element
-		     fileWriter.append("\n");
-		     System.out.println("TXT Recorded");
-
-
-		    } catch (Exception e1) {
-		      e1.printStackTrace();
-		    } finally {
-		      try {
-		        fileWriter.flush();
-		        fileWriter.close();
-		      } catch (IOException e1) {
-		        e1.printStackTrace();
-		      }
-
-		    }
-		
-		
-		
 
 	}
 	
