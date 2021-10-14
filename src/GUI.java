@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -29,17 +30,23 @@ public class GUI implements ActionListener {
 		// TODO Auto-generated method stub
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.black);
+		
 		JFrame frame = new JFrame();
-		frame.setSize(100, 100);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("My Flashcard");
+		frame.setSize(700, 300); // initial size of fame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit out of application
+		
 		
 		frame.add(panel);
 		
 		panel.setLayout(null);
 		
+		Color cl = new Color(200,50,50);
 		// Chinese
 		chnLabel = new JLabel("中文");
-		chnLabel.setBounds(10,20,80,25); //(x,y,width,height) 
+		chnLabel.setForeground(cl);
+		chnLabel.setBounds(10,20,80,25); //(x,y,width,height)
 		panel.add(chnLabel);
 		
 		chnText = new JTextField(20);
@@ -48,6 +55,7 @@ public class GUI implements ActionListener {
 		
 		// Pinyin
 		pinyinLabel = new JLabel("拼音");
+		pinyinLabel.setForeground(cl);
 		pinyinLabel.setBounds(10,50,80,25);
 		panel.add(pinyinLabel);
 		
@@ -56,7 +64,8 @@ public class GUI implements ActionListener {
 		panel.add(pinyinText);
 		
 		// Meaning
-		meanLabel = new JLabel("意味");
+		meanLabel = new JLabel("意思");
+		meanLabel.setForeground(cl);
 		meanLabel.setBounds(10,80,80,25);
 		panel.add(meanLabel);
 		
@@ -64,12 +73,13 @@ public class GUI implements ActionListener {
 		meanText.setBounds(100,80,360,25);
 		panel.add(meanText);
 		
-		button = new JButton("Add this word");
+		button = new JButton("添加");
 		button.setBounds(10,110,180,25);
 		button.addActionListener(new GUI());
 		panel.add(button);
 		
 		success = new JLabel("");
+		success.setForeground(cl);
 		success.setBounds(10,140,300,25);
 		panel.add(success);
 		
@@ -104,6 +114,8 @@ public class GUI implements ActionListener {
 				p.print(",");
 			}
 			p.println(txtData.get(txtData.size()-1));
+			
+			success.setText("OK");
 			
 		} catch (IOException i) {
 			i.printStackTrace();
