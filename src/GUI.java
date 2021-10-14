@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -22,8 +23,8 @@ public class GUI implements ActionListener {
 	private static JLabel meanLabel;
 	private static JTextField meanText;
 	
-	
-	private static JButton button;
+	private static JButton enterButton;
+	private static JButton resetButton;
 	private static JLabel success;
 
 	public static void main(String[] args) {
@@ -73,14 +74,24 @@ public class GUI implements ActionListener {
 		meanText.setBounds(100,80,360,25);
 		panel.add(meanText);
 		
-		button = new JButton("添加");
-		button.setBounds(10,110,180,25);
-		button.addActionListener(new GUI());
-		panel.add(button);
+		// enter button
+		enterButton = new JButton("添加");
+		enterButton.setBounds(10,110,100,45);
+		enterButton.addActionListener(new GUI());
+		enterButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(enterButton);
 		
+		// reset button
+		resetButton = new JButton("删除");
+		resetButton.setBounds(210,110,100,45);
+		resetButton.addActionListener(new GUI());
+		resetButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(resetButton);
+		
+		// success message
 		success = new JLabel("");
 		success.setForeground(cl);
-		success.setBounds(10,140,300,25);
+		success.setBounds(10,180,300,25);
 		panel.add(success);
 		
 		
@@ -92,39 +103,52 @@ public class GUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String chinese = chnText.getText();
-		String pinyin = pinyinText.getText();
-		String meaning = meanText.getText();
-		
-		MyDictonary d = new MyDictonary(chinese, pinyin, meaning);
-		System.out.println(d);
-		System.out.println(MyDictonary.filePath);
-		
+		if(e.getSource()==enterButton) {
+			String chinese = chnText.getText();
+			String pinyin = pinyinText.getText();
+			String meaning = meanText.getText();
 
-		// write file
-		List<String> txtData = MyDictonary.createList();
+			MyDictonary d = new MyDictonary(chinese, pinyin, meaning);
+			System.out.println(d);
+			System.out.println(MyDictonary.filePath);
+
+			// write file
+			List<String> txtData = MyDictonary.createList();
+
+			try (FileWriter f = new FileWriter(MyDictonary.filePath,true);
+					BufferedWriter b = new BufferedWriter(f);
+					PrintWriter p = new PrintWriter(b);){
+
+				// iterate list
+				for (int i=0; i<txtData.size()-1; i++) {
+					p.print(txtData.get(i));
+					p.print(",");
+				}
+				p.println(txtData.get(txtData.size()-1));
+
+				success.setText("OK");
+				enterButton.setEnabled(false); // disable button
 				
-		try (FileWriter f = new FileWriter(MyDictonary.filePath,true);
-				BufferedWriter b = new BufferedWriter(f);
-				PrintWriter p = new PrintWriter(b);){
-			
-			// iterate list
-			for (int i=0; i<txtData.size()-1; i++) {
-				p.print(txtData.get(i));
-				p.print(",");
-			}
-			p.println(txtData.get(txtData.size()-1));
-			
-			success.setText("OK");
-			
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
-		
+				// clear text box
+				chnText.setText("");
+				pinyinText.setText("");
+				meanText.setText("");
+				
+				enterButton.setEnabled(true);
 
+			} catch (IOException i) {
+				i.printStackTrace();
+			}
+
+		}
+		if(e.getSource()==resetButton) {
+			chnText.setText("");
+			pinyinText.setText("");
+			meanText.setText("");
+		}
 
 	}
-	
-	
+
+
 
 }

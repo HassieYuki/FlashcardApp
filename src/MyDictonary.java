@@ -28,7 +28,7 @@ public class MyDictonary {
 
 		// file path
 		MyDictonary.filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
-				+ myMonth + ".txt";
+				+ myMonth + "_test.txt";
 	}
 	
 	public String toString() {
