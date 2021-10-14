@@ -28,7 +28,6 @@ public class GUI implements ActionListener {
 	private static JLabel success;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.black);
@@ -102,7 +101,7 @@ public class GUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+
 		if(e.getSource()==enterButton) {
 			String chinese = chnText.getText();
 			String pinyin = pinyinText.getText();

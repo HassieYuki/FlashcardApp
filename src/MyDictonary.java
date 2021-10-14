@@ -27,6 +27,7 @@ public class MyDictonary {
 				timeFormat.format(currentDate);
 
 		// file path
+		// save in desktop
 		MyDictonary.filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
 				+ myMonth + "_test.txt";
 	}
