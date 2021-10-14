@@ -1,10 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -89,15 +86,15 @@ public class GUI implements ActionListener {
 		
 		MyDictonary d = new MyDictonary(chinese, pinyin, meaning);
 		System.out.println(d);
-		System.out.println(d.filePath);
+		System.out.println(MyDictonary.filePath);
 		
 
 		// write file
-		List<String> txtData = d.createList();
+		List<String> txtData = MyDictonary.createList();
 		
 		FileWriter fileWriter = null;
 		try {
-		      fileWriter = new FileWriter(d.filePath);
+		      fileWriter = new FileWriter(MyDictonary.filePath);
 
 
 		     for (int i=0; i<txtData.size()-1; i++) {

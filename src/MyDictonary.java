@@ -1,6 +1,4 @@
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,20 +14,20 @@ public class MyDictonary {
 	public static String filePath;
 
 	MyDictonary(String chnName, String pinyinName, String meanName){
-		this.chnName = chnName;
-		this.pinyinName  = pinyinName;
-		this.meanName = meanName;
+		MyDictonary.chnName = chnName;
+		MyDictonary.pinyinName  = pinyinName;
+		MyDictonary.meanName = meanName;
 
 		// time
 		Date currentDate = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		this.myMonth = dateFormat.format(currentDate);
-		this.myDate = dateFormat.format(currentDate) + "_" +
+		MyDictonary.myMonth = dateFormat.format(currentDate);
+		MyDictonary.myDate = dateFormat.format(currentDate) + "_" +
 				timeFormat.format(currentDate);
 
 		// file path
-		this.filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
+		MyDictonary.filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
 				+ myMonth + ".txt";
 	}
 	
