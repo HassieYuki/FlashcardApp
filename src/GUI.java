@@ -163,10 +163,12 @@ public class GUI implements ActionListener {
 	public static String storedInfo(String chn_word, List<ArrayList<String>> listOfLists) {
 		
 		String st = "";
+
 		for(int i=0; i<listOfLists.size(); i++) {
 			if(chn_word.equals(listOfLists.get(i).get(1))) {
+				
 				st = listOfLists.get(i).get(0);
-				System.out.println("Recorded in "+listOfLists.get(i).get(0));
+				System.out.println("Recorded in "+ st);
 				break;
 			}
 		}
@@ -182,28 +184,22 @@ public class GUI implements ActionListener {
 			String pinyin = pinyinText.getText();
 			String meaning = meanText.getText();
 			
-
+	
+			String si = storedInfo(chinese,listOfLists);
 			
 			// when there is empty box
 			if(chinese.isEmpty() || pinyin.isEmpty() || meaning.isEmpty()) {
 				success.setText("Empty box!");
 			
-
 				// stored before => storedInfo has String => isBlank=false
-			} else if(!storedInfo(chinese,listOfLists).equals("")){
-			
-				System.out.println(storedInfo(chinese,listOfLists));
+			} else if(!si.equals("")){
 				
-				String storedDate = storedInfo(chinese,listOfLists).substring(0, 4)
-						+ "/" + storedInfo(chinese,listOfLists).substring(4, 6)
-						+ "/" + storedInfo(chinese,listOfLists).substring(6, 8);
-				
-				String storedTime = storedInfo(chinese,listOfLists).substring(9,11)
-						+ ":" + storedInfo(chinese,listOfLists).substring(11,13)
-						+ ":" + storedInfo(chinese,listOfLists).substring(13,15);
+				String storedDate = si.substring(0, 4) + "/" + si.substring(6, 8);				
+				String storedTime = si.substring(9,11) + ":" + si.substring(11,13) + ":" + si.substring(13,15);
 				
 				success.setText("This word exists on " + storedDate + ". Added at " + storedTime);
-				
+			
+				// add new word
 			} else {
 
 				MyDictonary d = new MyDictonary(chinese, pinyin, meaning); 
@@ -224,14 +220,12 @@ public class GUI implements ActionListener {
 					p.println(txtData.get(txtData.size()-1));
 
 					success.setText("OK");
-					enterButton.setEnabled(false); // disable button
 
 					// clear text box
 					chnText.setText("");
 					pinyinText.setText("");
 					meanText.setText("");
 
-					enterButton.setEnabled(true);
 
 				} catch (IOException i) {
 					i.printStackTrace();
