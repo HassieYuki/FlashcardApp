@@ -10,31 +10,20 @@ public class MyDictonary {
 	public static String pinyinName;
 	public static String meanName;
 	public static String myDate;
-	
-	public static String myMonth;
-	public static String filePath;
 
-	MyDictonary(){
+
+	MyDictonary(String chnName, String pinyinName, String meanName){
 		// time
 		Date currentDate = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-		MyDictonary.myDate = dateFormat.format(currentDate) + "_" +
+		this.myDate = dateFormat.format(currentDate) + "_" +
 				timeFormat.format(currentDate);
-		MyDictonary.myMonth = MyDictonary.myDate.substring(0, 6); // get yyyyMM
 
-		// file path
-		// save in desktop
-		MyDictonary.filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
-				+ myMonth + "_test.txt";
-	}
-
-
-	MyDictonary(String chnName, String pinyinName, String meanName){
-		MyDictonary.chnName = chnName;
-		MyDictonary.pinyinName  = pinyinName;
-		MyDictonary.meanName = meanName;
+		this.chnName = chnName;
+		this.pinyinName  = pinyinName;
+		this.meanName = meanName;
 	}
 
 
@@ -43,7 +32,7 @@ public class MyDictonary {
 	}
 
 
-	public static List<String> createList(){
+	public List<String> createList(){
 		List<String> myList = new ArrayList<>();
 		myList.add(myDate);
 		myList.add(chnName);

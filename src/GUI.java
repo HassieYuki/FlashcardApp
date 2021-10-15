@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -34,6 +36,12 @@ public class GUI implements ActionListener {
 	private static JLabel success;
 
 	public static void main(String[] args) {
+		// read all data from a text file
+		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\202110_test.txt";
+
+		textReadAdd(storedPath,listOfLists);
+		System.out.println(listOfLists);
+
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.black);
@@ -99,17 +107,29 @@ public class GUI implements ActionListener {
 		success.setBounds(10,180,300,25);
 		panel.add(success);
 
-
 		frame.setVisible(true);
 
-		// read all data from a text file
-		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\202109_test.txt";
-
-		textReadAdd(storedPath,listOfLists);
-		System.out.println(listOfLists);
-		
+				
 	}
 
+	// create path
+	public static String createPath() {
+		// time
+		Date currentDate = new Date();
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
+		String myDate = dateFormat.format(currentDate) + "_" +
+				timeFormat.format(currentDate);
+		String myMonth = myDate.substring(0, 6); // get yyyyMM
+
+		// file path
+		// save in desktop
+		String filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
+				+ myMonth + "_test.txt";
+		
+		return filePath;
+	}
 	// take path and list of list
 	public static void textReadAdd(String storedPath,
 			List<ArrayList<String>> listOfLists) {
@@ -141,7 +161,6 @@ public class GUI implements ActionListener {
 	}
 	
 	public static String storedInfo(String chn_word, List<ArrayList<String>> listOfLists) {
-		System.out.println(listOfLists.size());
 		
 		String st = "";
 		for(int i=0; i<listOfLists.size(); i++) {
@@ -163,12 +182,18 @@ public class GUI implements ActionListener {
 			String pinyin = pinyinText.getText();
 			String meaning = meanText.getText();
 			
+
+			
 			// when there is empty box
 			if(chinese.isEmpty() || pinyin.isEmpty() || meaning.isEmpty()) {
 				success.setText("Empty box!");
 			
 
-			} else if(!storedInfo(chinese,listOfLists).isEmpty()){
+				// stored before => storedInfo has String => isBlank=false
+			} else if(!storedInfo(chinese,listOfLists).equals("")){
+			
+				System.out.println(storedInfo(chinese,listOfLists));
+				
 				String storedDate = storedInfo(chinese,listOfLists).substring(0, 4)
 						+ "/" + storedInfo(chinese,listOfLists).substring(4, 6)
 						+ "/" + storedInfo(chinese,listOfLists).substring(6, 8);
@@ -181,14 +206,13 @@ public class GUI implements ActionListener {
 				
 			} else {
 
-				MyDictonary d = new MyDictonary(chinese, pinyin, meaning);
-				System.out.println(d);
-				System.out.println(MyDictonary.filePath);
+				MyDictonary d = new MyDictonary(chinese, pinyin, meaning); 
 
 				// write file
-				List<String> txtData = MyDictonary.createList();
+				List<String> txtData = d.createList();
+				
 
-				try (FileWriter f = new FileWriter(MyDictonary.filePath,true);
+				try (FileWriter f = new FileWriter(createPath(),true);
 						BufferedWriter b = new BufferedWriter(f);
 						PrintWriter p = new PrintWriter(b);){
 
