@@ -206,7 +206,7 @@ public class GUI implements ActionListener {
 				String storedDate = si.substring(0, 4) + "/" + si.substring(4, 6);				
 				String storedTime = si.substring(9,11) + ":" + si.substring(11,13) + ":" + si.substring(13,15);
 				
-				success.setText("This word exists on " + storedDate + ". Added at " + storedTime);
+				success.setText(chinese + " exists on " + storedDate + ". Added at " + storedTime);
 			
 				// add new word
 			} else {
