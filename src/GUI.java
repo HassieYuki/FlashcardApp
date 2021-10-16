@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,13 +37,22 @@ public class GUI implements ActionListener {
 	private static JLabel success;
 
 	public static void main(String[] args) {
+		
 		// read all data from a text file
-		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\202110_test.txt";
-
-		textReadAdd(storedPath,listOfLists);
+		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese"; // folder path to the txt file
+		
+		File folder  = new File(storedPath);
+		File[] listOfFiles = folder.listFiles();
+		
+		for (int i = 0; i < listOfFiles.length; i++) {
+			System.out.println("Read " + listOfFiles[i].getName());
+			String newPath = storedPath + "\\" + listOfFiles[i].getName();
+			textReadAdd(newPath,listOfLists);
+		}
 		System.out.println(listOfLists);
 
 
+		// GUI
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.black);
 
@@ -184,7 +194,6 @@ public class GUI implements ActionListener {
 			String pinyin = pinyinText.getText();
 			String meaning = meanText.getText();
 			
-	
 			String si = storedInfo(chinese,listOfLists);
 			
 			// when there is empty box
@@ -194,7 +203,7 @@ public class GUI implements ActionListener {
 				// stored before => storedInfo has String => isBlank=false
 			} else if(!si.equals("")){
 				
-				String storedDate = si.substring(0, 4) + "/" + si.substring(6, 8);				
+				String storedDate = si.substring(0, 4) + "/" + si.substring(4, 6);				
 				String storedTime = si.substring(9,11) + ":" + si.substring(11,13) + ":" + si.substring(13,15);
 				
 				success.setText("This word exists on " + storedDate + ". Added at " + storedTime);
@@ -207,7 +216,6 @@ public class GUI implements ActionListener {
 				// write file
 				List<String> txtData = d.createList();
 				
-
 				try (FileWriter f = new FileWriter(createPath(),true);
 						BufferedWriter b = new BufferedWriter(f);
 						PrintWriter p = new PrintWriter(b);){
@@ -220,6 +228,8 @@ public class GUI implements ActionListener {
 					p.println(txtData.get(txtData.size()-1));
 
 					success.setText("OK");
+					
+					System.out.println(txtData);
 
 					// clear text box
 					chnText.setText("");
@@ -230,7 +240,6 @@ public class GUI implements ActionListener {
 				} catch (IOException i) {
 					i.printStackTrace();
 				}
-
 			}
 		}
 

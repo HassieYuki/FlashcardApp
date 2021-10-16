@@ -6,10 +6,10 @@ import java.util.List;
 
 public class MyDictonary {
 
-	public static String chnName;
-	public static String pinyinName;
-	public static String meanName;
-	public static String myDate;
+	public String chnName;
+	public String pinyinName;
+	public String meanName;
+	public String myDate;
 
 
 	MyDictonary(String chnName, String pinyinName, String meanName){
