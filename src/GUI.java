@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,12 +35,13 @@ public class GUI implements ActionListener {
 
 	private static JButton enterButton;
 	private static JButton resetButton;
+	private static JButton deleteButton;
 	private static JLabel success;
 
 	public static void main(String[] args) {
 		
 		// read all data from a text file
-		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese"; // folder path to the txt file
+		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText"; // folder path to the txt file
 		
 		File folder  = new File(storedPath);
 		File[] listOfFiles = folder.listFiles();
@@ -105,11 +107,18 @@ public class GUI implements ActionListener {
 		panel.add(enterButton);
 
 		// reset button
-		resetButton = new JButton("删除");
+		resetButton = new JButton("清除");
 		resetButton.setBounds(210,110,100,45);
 		resetButton.addActionListener(new GUI());
 		resetButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(resetButton);
+		
+		// reset button
+		deleteButton = new JButton("归零");
+		deleteButton.setBounds(500,110,100,45);
+		deleteButton.addActionListener(new GUI());
+		deleteButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(deleteButton);
 
 		// success message
 		success = new JLabel("");
@@ -135,7 +144,7 @@ public class GUI implements ActionListener {
 
 		// file path
 		// save in desktop
-		String filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\"
+		String filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText\\"
 				+ myMonth + "_test.txt";
 		
 		return filePath;
@@ -168,6 +177,25 @@ public class GUI implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// take path and delete previous data
+	public static void deletePreWord(String storedFile) throws IOException {
+		RandomAccessFile f = new RandomAccessFile(storedFile, "rw");
+		long length = f.length() - 1;
+		byte b;
+		do {                     
+		  length -= 1;
+		  f.seek(length);
+		  b = f.readByte();
+		} while(b != 10 && length > 0);
+		if (length == 0) { 
+		f.setLength(length);
+		} else {
+		f.setLength(length + 1);
+		}
+		f.close();
+		System.out.println("Delete last line in "+storedFile);
 	}
 	
 	public static String storedInfo(String chn_word, List<ArrayList<String>> listOfLists) {
@@ -249,6 +277,15 @@ public class GUI implements ActionListener {
 			meanText.setText("");
 		}
 
+		if(e.getSource()==deleteButton) {
+			//Delete test
+			try {
+				deletePreWord(createPath());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 
 
