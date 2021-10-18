@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -37,22 +36,12 @@ public class LaunchGUI implements ActionListener {
 	private static JButton enterButton;
 	private static JButton resetButton;
 	private static JButton deleteButton;
+	private static JButton searchButton;
+	
 	private static JLabel success;
 
 	LaunchGUI() {
-		// read all data from a text file
-		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText"; // folder path to the txt file
-
-		File folder  = new File(storedPath);
-		File[] listOfFiles = folder.listFiles();
-
-		for (int i = 0; i < listOfFiles.length; i++) {
-			System.out.println("Read " + listOfFiles[i].getName());
-			String newPath = storedPath + "\\" + listOfFiles[i].getName();
-			textReadAdd(newPath,listOfLists);
-		}
-		System.out.println(listOfLists);
-
+		
 		//GUI
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.black);
@@ -62,12 +51,12 @@ public class LaunchGUI implements ActionListener {
 		frame.setSize(700, 300); // initial size of fame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit out of application
 
-
 		frame.add(panel);
 
 		panel.setLayout(null);
 
 		Color cl = new Color(200,50,50);
+		
 		// Chinese
 		chnLabel = new JLabel("中文");
 		chnLabel.setForeground(cl);
@@ -114,10 +103,17 @@ public class LaunchGUI implements ActionListener {
 
 		// reset button
 		deleteButton = new JButton("归零");
-		deleteButton.setBounds(500,110,100,45);
+		deleteButton.setBounds(410,110,100,45);
 		deleteButton.addActionListener(this);
 		deleteButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(deleteButton);
+
+		// search button
+		searchButton = new JButton("搜");
+		searchButton.setBounds(210,210,100,45);
+		searchButton.addActionListener(this);
+		searchButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(searchButton);
 
 		// success message
 		success = new JLabel("");
@@ -150,7 +146,7 @@ public class LaunchGUI implements ActionListener {
 	}
 
 	// take path and list of list
-	public static void textReadAdd(String storedPath,
+	public void textReadAdd(String storedPath,
 			List<ArrayList<String>> listOfLists) {
 
 		String line = "";
@@ -286,6 +282,12 @@ public class LaunchGUI implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+		
+		if(e.getSource()==searchButton) {
+			// open search window
+			SearchWindow searchWindow = new SearchWindow(listOfLists);
+			System.out.println("open "+searchWindow.getClass());
 		}
 	}
 
