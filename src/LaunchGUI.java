@@ -22,10 +22,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class GUI implements ActionListener {
 
-	public static List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
-	
+public class LaunchGUI implements ActionListener {
+
+	public List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
+
 	private static JLabel chnLabel;
 	private static JTextField chnText;
 	private static JLabel pinyinLabel;
@@ -38,14 +39,13 @@ public class GUI implements ActionListener {
 	private static JButton deleteButton;
 	private static JLabel success;
 
-	public static void main(String[] args) {
-		
+	LaunchGUI() {
 		// read all data from a text file
 		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText"; // folder path to the txt file
-		
+
 		File folder  = new File(storedPath);
 		File[] listOfFiles = folder.listFiles();
-		
+
 		for (int i = 0; i < listOfFiles.length; i++) {
 			System.out.println("Read " + listOfFiles[i].getName());
 			String newPath = storedPath + "\\" + listOfFiles[i].getName();
@@ -53,8 +53,7 @@ public class GUI implements ActionListener {
 		}
 		System.out.println(listOfLists);
 
-
-		// GUI
+		//GUI
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.black);
 
@@ -102,21 +101,21 @@ public class GUI implements ActionListener {
 		// enter button
 		enterButton = new JButton("添加");
 		enterButton.setBounds(10,110,100,45);
-		enterButton.addActionListener(new GUI());
+		enterButton.addActionListener(this);
 		enterButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(enterButton);
 
 		// reset button
 		resetButton = new JButton("清除");
 		resetButton.setBounds(210,110,100,45);
-		resetButton.addActionListener(new GUI());
+		resetButton.addActionListener(this);
 		resetButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(resetButton);
-		
+
 		// reset button
 		deleteButton = new JButton("归零");
 		deleteButton.setBounds(500,110,100,45);
-		deleteButton.addActionListener(new GUI());
+		deleteButton.addActionListener(this);
 		deleteButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(deleteButton);
 
@@ -128,7 +127,7 @@ public class GUI implements ActionListener {
 
 		frame.setVisible(true);
 
-				
+
 	}
 
 	// create path
@@ -146,25 +145,26 @@ public class GUI implements ActionListener {
 		// save in desktop
 		String filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText\\"
 				+ myMonth + "_test.txt";
-		
+
 		return filePath;
 	}
+
 	// take path and list of list
 	public static void textReadAdd(String storedPath,
 			List<ArrayList<String>> listOfLists) {
-		
+
 		String line = "";
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(storedPath));
 
 			while((line = br.readLine()) != null) {
 				String[] values = line.split(",");
-				
+
 				ArrayList<String> addList = new ArrayList<String>();
 				for(String value: values ) {
 					addList.add(value);
 				}
-				
+
 				listOfLists.add((ArrayList<String>) addList);
 			}
 			//System.out.println(listOfLists);
@@ -178,39 +178,40 @@ public class GUI implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	// take path and delete previous data
 	public static void deletePreWord(String storedFile) throws IOException {
 		RandomAccessFile f = new RandomAccessFile(storedFile, "rw");
 		long length = f.length() - 1;
 		byte b;
 		do {                     
-		  length -= 1;
-		  f.seek(length);
-		  b = f.readByte();
+			length -= 1;
+			f.seek(length);
+			b = f.readByte();
 		} while(b != 10 && length > 0);
 		if (length == 0) { 
-		f.setLength(length);
+			f.setLength(length);
 		} else {
-		f.setLength(length + 1);
+			f.setLength(length + 1);
 		}
 		f.close();
 		System.out.println("Delete last line in "+storedFile);
 	}
-	
+
 	public static String storedInfo(String chn_word, List<ArrayList<String>> listOfLists) {
-		
+
 		String st = "";
 
 		for(int i=0; i<listOfLists.size(); i++) {
 			if(chn_word.equals(listOfLists.get(i).get(1))) {
-				
+
 				st = listOfLists.get(i).get(0);
 				System.out.println("Recorded in "+ st);
 				break;
 			}
 		}
-			
+
 		return st;
 	}
 
@@ -221,21 +222,21 @@ public class GUI implements ActionListener {
 			String chinese = chnText.getText();
 			String pinyin = pinyinText.getText();
 			String meaning = meanText.getText();
-			
+
 			String si = storedInfo(chinese,listOfLists);
-			
+
 			// when there is empty box
 			if(chinese.isEmpty() || pinyin.isEmpty() || meaning.isEmpty()) {
 				success.setText("Empty box!");
-			
+
 				// stored before => storedInfo has String => isBlank=false
 			} else if(!si.equals("")){
-				
+
 				String storedDate = si.substring(0, 4) + "/" + si.substring(4, 6);				
 				String storedTime = si.substring(9,11) + ":" + si.substring(11,13) + ":" + si.substring(13,15);
-				
+
 				success.setText(chinese + " exists on " + storedDate + ". Added at " + storedTime);
-			
+
 				// add new word
 			} else {
 
@@ -243,7 +244,7 @@ public class GUI implements ActionListener {
 
 				// write file
 				List<String> txtData = d.createList();
-				
+
 				try (FileWriter f = new FileWriter(createPath(),true);
 						BufferedWriter b = new BufferedWriter(f);
 						PrintWriter p = new PrintWriter(b);){
@@ -256,7 +257,7 @@ public class GUI implements ActionListener {
 					p.println(txtData.get(txtData.size()-1));
 
 					success.setText("OK");
-					
+
 					System.out.println(txtData);
 
 					// clear text box
