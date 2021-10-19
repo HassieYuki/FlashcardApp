@@ -3,11 +3,12 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
@@ -127,7 +128,7 @@ public class LaunchGUI implements ActionListener {
 	}
 
 	// create path
-	public static String createPath() {
+	public String createPath() {
 		// time
 		Date currentDate = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
@@ -241,9 +242,10 @@ public class LaunchGUI implements ActionListener {
 				// write file
 				List<String> txtData = d.createList();
 
-				try (FileWriter f = new FileWriter(createPath(),true);
-						BufferedWriter b = new BufferedWriter(f);
-						PrintWriter p = new PrintWriter(b);){
+				try (
+						OutputStream os = new FileOutputStream(createPath(),true);
+						PrintWriter p = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
+						){
 
 					// iterate list
 					for (int i=0; i<txtData.size()-1; i++) {
