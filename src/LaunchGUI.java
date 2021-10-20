@@ -140,7 +140,7 @@ public class LaunchGUI implements ActionListener {
 
 		// file path
 		// save in desktop
-		String filePath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText\\"
+		String filePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordText\\"
 				+ myMonth + "_test.txt";
 
 		return filePath;

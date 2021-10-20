@@ -9,10 +9,11 @@ public class Main {
 		List<ArrayList<String>> listOfLists = launchPage.listOfLists;
 
 		// read all data from a text file
-		String storedPath = "C:\\Users\\g84oo\\Desktop\\Chinese\\recordText"; // folder path to the txt file
+		String storedPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordText"; // folder path to the txt file
 
 		File folder  = new File(storedPath);
 		File[] listOfFiles = folder.listFiles();
+		
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 			System.out.println("Read " + listOfFiles[i].getName());
