@@ -1,6 +1,11 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 
 public class Main {
 
@@ -13,7 +18,7 @@ public class Main {
 
 		File folder  = new File(storedPath);
 		File[] listOfFiles = folder.listFiles();
-		
+
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 			System.out.println("Read " + listOfFiles[i].getName());
@@ -21,11 +26,22 @@ public class Main {
 			launchPage.textReadAdd(newPath,listOfLists);
 		}
 		System.out.println(listOfLists);
+
+		
+		WavPlayer wavplay;
+		String wavFilePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio\\record_ymy4.wav";
+		try {
+			wavplay = new WavPlayer(wavFilePath);
+			wavplay.start();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 
 	}
-	
-	
+
+
 
 
 
