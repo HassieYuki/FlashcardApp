@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 
 public class LaunchGUI implements ActionListener {
 
+	public String filetitle = "_test.txt";
 	public List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
 
 	private static JLabel chnLabel;
@@ -38,6 +39,7 @@ public class LaunchGUI implements ActionListener {
 	private static JButton resetButton;
 	private static JButton deleteButton;
 	private static JButton searchButton;
+	private static JButton recordButton;
 	
 	private static JLabel success;
 
@@ -94,6 +96,13 @@ public class LaunchGUI implements ActionListener {
 		enterButton.addActionListener(this);
 		enterButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(enterButton);
+		
+		// record button
+		recordButton = new JButton("record");
+		recordButton.setBounds(480,30,100,45);
+		recordButton.addActionListener(this);
+		recordButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(recordButton);
 
 		// reset button
 		resetButton = new JButton("清除");
@@ -102,8 +111,8 @@ public class LaunchGUI implements ActionListener {
 		resetButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		panel.add(resetButton);
 
-		// reset button
-		deleteButton = new JButton("归零");
+		// delete button
+		deleteButton = new JButton("归零 delete");
 		deleteButton.setBounds(410,110,100,45);
 		deleteButton.addActionListener(this);
 		deleteButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
@@ -127,8 +136,8 @@ public class LaunchGUI implements ActionListener {
 
 	}
 
-	// create path
-	public String createPath() {
+	// create current month
+	public String createMonth() {
 		// time
 		Date currentDate = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
@@ -137,11 +146,16 @@ public class LaunchGUI implements ActionListener {
 		String myDate = dateFormat.format(currentDate) + "_" +
 				timeFormat.format(currentDate);
 		String myMonth = myDate.substring(0, 6); // get yyyyMM
+		
+		return myMonth;
+	}
 
+	// create path
+	public String createPath(String title) {
 		// file path
 		// save in desktop
 		String filePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordText\\"
-				+ myMonth + "_test.txt";
+				+ createMonth() + "" + title;
 
 		return filePath;
 	}
@@ -243,7 +257,7 @@ public class LaunchGUI implements ActionListener {
 				List<String> txtData = d.createList();
 
 				try (
-						OutputStream os = new FileOutputStream(createPath(),true);
+						OutputStream os = new FileOutputStream(createPath(filetitle),true);
 						PrintWriter p = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 						){
 
@@ -279,7 +293,7 @@ public class LaunchGUI implements ActionListener {
 		if(e.getSource()==deleteButton) {
 			//Delete test
 			try {
-				deletePreWord(createPath());
+				deletePreWord(createPath(filetitle));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -290,6 +304,19 @@ public class LaunchGUI implements ActionListener {
 			// open search window
 			SearchWindow searchWindow = new SearchWindow(listOfLists);
 			System.out.println("open "+searchWindow.getClass());
+		}
+		
+		if(e.getSource()==recordButton) {
+			String chinese = chnText.getText();
+			if(chinese.isBlank()) {
+				System.out.println("Chinese blank error");
+				success.setText("Enter chinese");
+			}
+			else {
+				String record_filetitle = createMonth()+"_"+chinese+".wav";
+				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test\\"+record_filetitle;
+				WavRecord.record(record_path);
+			}
 		}
 	}
 

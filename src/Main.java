@@ -25,11 +25,11 @@ public class Main {
 			String newPath = storedPath + "\\" + listOfFiles[i].getName();
 			launchPage.textReadAdd(newPath,listOfLists);
 		}
-		System.out.println(listOfLists);
+		//System.out.println(listOfLists);
 
-		
+		// audio play test
 		WavPlayer wavplay;
-		String wavFilePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio\\record_ymy4.wav";
+		String wavFilePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test\\202111_天才.wav";
 		try {
 			wavplay = new WavPlayer(wavFilePath);
 			wavplay.start();
