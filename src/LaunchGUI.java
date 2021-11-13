@@ -136,17 +136,19 @@ public class LaunchGUI implements ActionListener {
 
 	}
 
-	// create current month
-	public String createMonth() {
-		// time
+	public String createDate() {
 		Date currentDate = new Date();
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
-		String myDate = dateFormat.format(currentDate) + "_" +
+		String myDate =  dateFormat.format(currentDate) + "_" +
 				timeFormat.format(currentDate);
-		String myMonth = myDate.substring(0, 6); // get yyyyMM
-		
+		return myDate;
+	}
+
+	// create current month
+	public String createMonth() {
+		String myMonth = createDate().substring(0, 6); // get yyyyMM		
 		return myMonth;
 	}
 
@@ -313,7 +315,7 @@ public class LaunchGUI implements ActionListener {
 				success.setText("Enter chinese");
 			}
 			else {
-				String record_filetitle = createMonth()+"_"+chinese+".wav";
+				String record_filetitle = createDate()+"_"+chinese+".wav";
 				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test\\"+record_filetitle;
 				WavRecord.record(record_path);
 			}
