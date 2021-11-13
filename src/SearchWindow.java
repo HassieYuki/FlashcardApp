@@ -21,6 +21,7 @@ public class SearchWindow implements ActionListener{
 	private static JTextField srchText;
 	
 	private static JButton searchButton;
+	private static JButton playButton;
 	
 	private static JLabel message;
 	
