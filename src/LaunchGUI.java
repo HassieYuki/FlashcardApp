@@ -35,6 +35,7 @@ public class LaunchGUI implements ActionListener {
 	private static JLabel meanLabel;
 	private static JTextField meanText;
 
+	private static JButton checkButton;
 	private static JButton enterButton;
 	private static JButton resetButton;
 	private static JButton deleteButton;
@@ -47,7 +48,7 @@ public class LaunchGUI implements ActionListener {
 		
 		//GUI
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.black);
+		panel.setBackground(Color.WHITE);
 
 		JFrame frame = new JFrame();
 		frame.setTitle("My Flashcard");
@@ -79,6 +80,7 @@ public class LaunchGUI implements ActionListener {
 		pinyinText = new JTextField(20);
 		pinyinText.setBounds(100,50,160,25);
 		panel.add(pinyinText);
+		
 
 		// Meaning
 		meanLabel = new JLabel("意思");
@@ -87,8 +89,16 @@ public class LaunchGUI implements ActionListener {
 		panel.add(meanLabel);
 
 		meanText = new JTextField(20);
-		meanText.setBounds(100,80,360,25);
+		meanText.setBounds(100,80,550,25);
 		panel.add(meanText);
+		
+		// check button
+		checkButton = new JButton("check in dict");
+		checkButton.setBounds(250,20,180,25);
+		checkButton.addActionListener(this);
+		checkButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		panel.add(checkButton);
+
 
 		// enter button
 		enterButton = new JButton("添加");
@@ -112,7 +122,7 @@ public class LaunchGUI implements ActionListener {
 		panel.add(resetButton);
 
 		// delete button
-		deleteButton = new JButton("归零 delete");
+		deleteButton = new JButton("delete 归零");
 		deleteButton.setBounds(410,110,100,45);
 		deleteButton.addActionListener(this);
 		deleteButton.setFont(new Font("TimesRoman", Font.BOLD, 20));
@@ -318,6 +328,35 @@ public class LaunchGUI implements ActionListener {
 				String record_filetitle = createDate()+"_"+chinese+".wav";
 				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test\\"+record_filetitle;
 				WavRecord.record(record_path);
+			}
+		}
+		
+		if(e.getSource()==checkButton) {
+			String chinese = chnText.getText();
+			if(chinese.isBlank()) {
+				System.out.println("Chinese blank error");
+				success.setText("Enter chinese");
+			}
+			else {
+				ScrapeDict nihao = new ScrapeDict(chinese);
+				String[] nihao_dict = nihao.createList();
+				
+				if(nihao_dict[0].isEmpty()) {
+					success.setText("not in the dictionary");
+				}
+				else if(nihao_dict[1].isEmpty()) {
+					success.setText("no pinyin");
+				}
+				else if(nihao_dict[2].isEmpty()) {
+					success.setText("no meaning");
+				}
+				
+				// show result in text field
+				else {
+					
+					pinyinText.setText(nihao_dict[1]);
+					meanText.setText(nihao_dict[2]);
+				}	
 			}
 		}
 	}

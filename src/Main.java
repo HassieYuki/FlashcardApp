@@ -22,24 +22,6 @@ public class Main {
 			launchPage.textReadAdd(newPath,listOfLists);
 		}
 		
-		ScrapeDict nihao = new ScrapeDict("厲害");
-		String[] nihao_dict = nihao.createList();
-		
-		
-		if(nihao_dict[0].isEmpty()) {
-			System.out.println("not in the dictionary");
-		}
-		else if(nihao_dict[1].isEmpty()) {
-			System.out.println("no pinyin");
-		}
-		else if(nihao_dict[2].isEmpty()) {
-			System.out.println("no meaning");
-		}
-		else {
-			System.out.println(nihao_dict[0]);
-			System.out.println(nihao_dict[1]);
-			System.out.println(nihao_dict[2]);
-		}	
 
 	}
 
