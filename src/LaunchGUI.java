@@ -25,7 +25,13 @@ import javax.swing.JTextField;
 
 public class LaunchGUI implements ActionListener {
 
+	// change here to define txt file name and record folder path
 	public String filetitle = "_regular.txt";
+	public String recordFolderPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio";
+	
+	public String textFolderPath;
+	
+	
 	public List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
 
 	private static JLabel chnLabel;
@@ -44,7 +50,8 @@ public class LaunchGUI implements ActionListener {
 	
 	private static JLabel success;
 
-	LaunchGUI() {
+	LaunchGUI(String folderPath) {
+		this.textFolderPath = folderPath;
 		
 		//GUI
 		JPanel panel = new JPanel();
@@ -142,8 +149,6 @@ public class LaunchGUI implements ActionListener {
 		panel.add(success);
 
 		frame.setVisible(true);
-
-
 	}
 
 	public String createDate() {
@@ -163,11 +168,10 @@ public class LaunchGUI implements ActionListener {
 	}
 
 	// create path
-	public String createPath(String title) {
+	public String createPath(String title, String folderPath) {
+		
 		// file path
-		// save in desktop
-		String filePath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordText\\"
-				+ createMonth() + "" + title;
+		String filePath = folderPath + createMonth() + "" + title;
 
 		return filePath;
 	}
@@ -195,7 +199,6 @@ public class LaunchGUI implements ActionListener {
 			br.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -222,6 +225,7 @@ public class LaunchGUI implements ActionListener {
 		System.out.println("Delete last line in "+storedFile);
 	}
 
+	// take searching word and list of data, return registered date or ""
 	public static String storedInfo(String chn_word, List<ArrayList<String>> listOfLists) {
 
 		String st = "";
@@ -269,7 +273,7 @@ public class LaunchGUI implements ActionListener {
 				ArrayList<String> txtData = d.createList();
 
 				try (
-						OutputStream os = new FileOutputStream(createPath(filetitle),true);
+						OutputStream os = new FileOutputStream(createPath(filetitle, textFolderPath),true);
 						PrintWriter p = new PrintWriter(new OutputStreamWriter(os, "UTF-8"));
 						){
 
@@ -306,16 +310,15 @@ public class LaunchGUI implements ActionListener {
 		if(e.getSource()==deleteButton) {
 			//Delete test
 			try {
-				deletePreWord(createPath(filetitle));
+				deletePreWord(createPath(filetitle, textFolderPath));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		
 		if(e.getSource()==searchButton) {
 			// open search window
-			SearchWindow searchWindow = new SearchWindow(listOfLists);
+			SearchWindow searchWindow = new SearchWindow(listOfLists, recordFolderPath);
 			System.out.println("open "+searchWindow.getClass());
 		}
 		
@@ -327,7 +330,7 @@ public class LaunchGUI implements ActionListener {
 			}
 			else {
 				String record_filetitle = createDate()+"_"+chinese+".wav";
-				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio\\"+record_filetitle;
+				String record_path = recordFolderPath +"\\"+record_filetitle;
 				WavRecord.record(record_path);
 			}
 		}

@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class SearchWindow implements ActionListener {
 
-	private String recordDataPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio";
+	private String recordDataPath;
 	private String matchFile;
 	private List<ArrayList<String>> listOfLists;
 
@@ -31,8 +31,9 @@ public class SearchWindow implements ActionListener {
 	private static JLabel message;
 	private static JLabel message2;
 
-	SearchWindow(List<ArrayList<String>> listOfLists) {
+	SearchWindow(List<ArrayList<String>> listOfLists, String recordDataPath) {
 		this.listOfLists = listOfLists;
+		this.recordDataPath = recordDataPath;
 
 		JPanel panel = new JPanel();
 
@@ -91,6 +92,7 @@ public class SearchWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// search
 		if (e.getSource() == searchButton) {
 			String srchWord = srchText.getText();
 
@@ -98,53 +100,54 @@ public class SearchWindow implements ActionListener {
 			if(srchWord.isBlank()) {
 				message.setText("Fill in the blank");
 			} 
-			
+
 			else {		
-			// visible audio play button
-			File folder = new File(recordDataPath);
-			File[] listOfFiles = folder.listFiles();
+				// visible audio play button
+				File folder = new File(recordDataPath);
+				File[] listOfFiles = folder.listFiles();
 
-			int containAudioIdxNo = -1;
-			for (int i = 0; i < listOfFiles.length; i++) {
-				if (listOfFiles[i].getName().contains(srchWord)) {
-					containAudioIdxNo = i;
-					System.out.println("File: " + listOfFiles[i].getName());
-					matchFile = listOfFiles[i].getName();
-					playButton.setVisible(true);
-					message2.setText(matchFile);
-					break;
-				}		
-			}
-			if(containAudioIdxNo == -1) {
-				System.out.println("Not in audio file");
-				playButton.setVisible(false);
-				message2.setText("Not in audio file");
-			}
-
-			// check the list
-			int containWordIdxNo = -1;
-			for (int i = 0; i < listOfLists.size(); i++) {
-				if (listOfLists.get(i).contains(srchWord)) {
-					containWordIdxNo = i;
-					System.out.println(srchWord + " is in " + listOfLists.get(i).get(0));
-
-					message.setText(listOfLists.get(i).get(0) + ": " + listOfLists.get(i).get(1) + " "
-							+ listOfLists.get(i).get(2) + " " + listOfLists.get(i).get(3));
-					break;
+				int containAudioIdxNo = -1;
+				for (int i = 0; i < listOfFiles.length; i++) {
+					if (listOfFiles[i].getName().contains(srchWord)) {
+						containAudioIdxNo = i;
+						System.out.println("File: " + listOfFiles[i].getName());
+						matchFile = listOfFiles[i].getName();
+						playButton.setVisible(true);  // play button appears
+						message2.setText(matchFile);
+						break;
+					}		
+				}
+				if(containAudioIdxNo == -1) {
+					System.out.println("Not in audio file");
+					playButton.setVisible(false);
+					message2.setText("Not in audio file");
 				}
 
-			}
-			// not in the list
-			if(containWordIdxNo == -1) {
-				message.setText("Not in my flash card");
-			}
+				// check the list
+				int containWordIdxNo = -1;
+				for (int i = 0; i < listOfLists.size(); i++) {
+					if (listOfLists.get(i).contains(srchWord)) {
+						containWordIdxNo = i;
+						System.out.println(srchWord + " is in " + listOfLists.get(i).get(0));
+
+						message.setText(listOfLists.get(i).get(0) + ": " + listOfLists.get(i).get(1) + " "
+								+ listOfLists.get(i).get(2) + " " + listOfLists.get(i).get(3));
+						break;
+					}
+
+				}
+				// not in the list
+				if(containWordIdxNo == -1) {
+					message.setText("Not in my flash card");
+				}
 			}
 
 		}
-		
+
+		// play audio
 		if(e.getSource()==playButton) {
 			WavPlayer wavplay;
-			String wavFilePath = recordDataPath+"\\"+matchFile;
+			String wavFilePath = recordDataPath+"\\"+matchFile;  // record file name with path
 			try {
 				wavplay = new WavPlayer(wavFilePath);
 				wavplay.start();
