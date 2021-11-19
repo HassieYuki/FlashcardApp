@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 public class SearchWindow implements ActionListener {
 
-	private String recordDataPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test";
+	private String recordDataPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio";
 	private String matchFile;
 	private List<ArrayList<String>> listOfLists;
 
@@ -136,7 +136,7 @@ public class SearchWindow implements ActionListener {
 			}
 			// not in the list
 			if(containWordIdxNo == -1) {
-				message.setText("Not in my falsh card");
+				message.setText("Not in my flash card");
 			}
 			}
 

@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 
 public class LaunchGUI implements ActionListener {
 
-	public String filetitle = "_test.txt";
+	public String filetitle = "_regular.txt";
 	public List<ArrayList<String>> listOfLists = new ArrayList<ArrayList<String>>();
 
 	private static JLabel chnLabel;
@@ -266,7 +266,7 @@ public class LaunchGUI implements ActionListener {
 				MyDictonary d = new MyDictonary(chinese, pinyin, meaning); 
 
 				// write file
-				List<String> txtData = d.createList();
+				ArrayList<String> txtData = d.createList();
 
 				try (
 						OutputStream os = new FileOutputStream(createPath(filetitle),true);
@@ -279,6 +279,7 @@ public class LaunchGUI implements ActionListener {
 						p.print(",");
 					}
 					p.println(txtData.get(txtData.size()-1));
+					listOfLists.add(txtData);
 
 					success.setText("OK");
 
@@ -326,7 +327,7 @@ public class LaunchGUI implements ActionListener {
 			}
 			else {
 				String record_filetitle = createDate()+"_"+chinese+".wav";
-				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test\\"+record_filetitle;
+				String record_path = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio\\"+record_filetitle;
 				WavRecord.record(record_path);
 			}
 		}

@@ -22,6 +22,7 @@ public class Main {
 			launchPage.textReadAdd(newPath,listOfLists);
 		}
 		
+		System.out.println(listOfLists);
 
 	}
 

@@ -1,25 +1,49 @@
 package Tests;
 
-import java.io.File;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Test1 {
 
 	public static void main(String[] args) {
-
 		
-		File folder = new File("C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordAudio-test");
-		File[] listOfFiles = folder.listFiles();
+		String search_word = "阿爸阿爸";
 
-		String word = "天才";
-		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].getName().contains(word)) {
-				System.out.println("match!");
-				System.out.println("File " + listOfFiles[i].getName());
-			}
+		String url = "https://cjjc.weblio.jp/content/"+search_word;
+
+		try {
+			final Document document = Jsoup.connect(url).get();
+			Elements elements = document.select("#base #main .kijiWrp .kiji");
+			//System.out.println(element);
+		
+			String word = elements.select(".midashigo").attr("title");
+			Elements pinyin = elements.select(".Cgkgj span.pnyn");
+			String pynword = pinyin.select(".crosslink").attr("title");
+			Elements jpn = elements.select("div.Cgkgj div.level0 p.lvlB");
+			String meaning = jpn.text();
 			
+			if(word.isEmpty()) {
+				System.out.println("Empty");
+			}
+			else if(pynword.isEmpty()) {
+				System.out.println("no pinyin");
+			}
+			else if(meaning.isEmpty()) {
+				System.out.println("no meaning");
+			}
+			else {
+			System.out.println(word);
+			System.out.println(pynword);
+			System.out.println(meaning);
+			}	
+
 		}
-		
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	
+
 
 }

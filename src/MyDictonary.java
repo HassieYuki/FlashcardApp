@@ -2,7 +2,6 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class MyDictonary {
 
@@ -32,8 +31,8 @@ public class MyDictonary {
 	}
 
 
-	public List<String> createList(){
-		List<String> myList = new ArrayList<>();
+	public ArrayList<String> createList(){
+		ArrayList<String> myList = new ArrayList<>();
 		myList.add(myDate);
 		myList.add(chnName);
 		myList.add(pinyinName);
