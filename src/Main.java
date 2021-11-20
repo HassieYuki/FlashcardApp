@@ -8,8 +8,8 @@ public class Main {
 	public static void main(String[] args) {
 		// read all data from a text file
 		String textStoredPath = "C:\\Users\\g84oo\\GoogleDrive\\Eclipse\\Chinese\\recordText"; // folder path to the txt file
-		String textFolderPath = textStoredPath+ "\\";
-		
+
+		String textFolderPath = textStoredPath+ "\\";		
 		LaunchGUI launchPage = new LaunchGUI(textFolderPath);
 		List<ArrayList<String>> listOfLists = launchPage.listOfLists;
 
